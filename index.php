@@ -53,6 +53,7 @@ if ($page === 'home') {
           <li class="nav-item"><a class="nav-link text-dark-50" href="#inheritance">Inheritance</a></li>
           <li class="nav-item"><a class="nav-link text-dark-50" href="#pertemuan5">Pertemuan 5</a></li>
           <li class="nav-item"><a class="nav-link text-dark-50" href="#pertemuan6">Praktikum 6</a></li>
+          <li class="nav-item"><a class="nav-link text-dark-50" href="#tugas-abstraksi">Tugas Abstraksi & Polimorfisme</a></li>
         </ul>
       </div>
     </div>
@@ -70,6 +71,7 @@ if ($page === 'home') {
             <a href="#inheritance" class="btn btn-outline-dark btn-lg"><i class="bi bi-diagram-3"></i> Ke Inheritance</a>
             <a href="#pertemuan5" class="btn btn-outline-dark btn-lg"><i class="bi bi-people"></i> Ke Pertemuan 5</a>
             <a href="#pertemuan6" class="btn btn-outline-dark btn-lg"><i class="bi bi-flower3"></i> Ke Praktikum 6</a>
+            <a href="#tugas-abstraksi" class="btn btn-outline-dark btn-lg"><i class="bi bi-journal-text"></i> Ke Tugas Abstraksi</a>
           </div>
         </div>
         <div class="col-lg-5">
@@ -128,7 +130,7 @@ if ($page === 'home') {
           </div>
         </section>
 
-        <!-- Tugas -->
+        <!-- Tugas Properti, Method, Constructor -->
         <section id="tugas" class="col-12">
           <div class="glass rounded-4 p-4">
             <div class="d-flex align-items-center mb-3">
@@ -206,6 +208,37 @@ if ($page === 'home') {
               <div class="col">
                 <a class="card-link rounded-3 p-3 d-flex justify-content-between align-items-center" href="/pertemuan_6/class_bunga.php">
                   <span><i class="bi bi-flower3"></i> Class Bunga</span>
+                  <i class="bi bi-arrow-right-short fs-4"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Abstraksi & Polimorfisme -->
+        <section id="tugas-abstraksi" class="col-12">
+          <div class="glass rounded-4 p-4">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-journal-check fs-3 brand"></i>
+              <h2 class="h4 ms-2 mb-0 text-dark">Tugas Abstraksi & Polimorfisme</h2>
+            </div>
+            <p class="text-muted">Tugas mengenai <em>Abstraksi</em> dan <em>Polimorfisme</em>:</p>
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+              <div class="col">
+                <a class="card-link rounded-3 p-3 d-flex justify-content-between align-items-center" href="/tugas_polimorfisme_dan_abstraksi/soal_1.php">
+                  <span><i class="bi bi-1-circle"></i> Soal 1 — Abstraksi</span>
+                  <i class="bi bi-arrow-right-short fs-4"></i>
+                </a>
+              </div>
+              <div class="col">
+                <a class="card-link rounded-3 p-3 d-flex justify-content-between align-items-center" href="/tugas_polimorfisme_dan_abstraksi/soal_2.php">
+                  <span><i class="bi bi-2-circle"></i> Soal 2 — Polimorfisme</span>
+                  <i class="bi bi-arrow-right-short fs-4"></i>
+                </a>
+              </div>
+              <div class="col">
+                <a class="card-link rounded-3 p-3 d-flex justify-content-between align-items-center" href="/tugas_polimorfisme_dan_abstraksi/soal_3.php">
+                  <span><i class="bi bi-3-circle"></i> Soal 3 — Studi Kasus Perpustakaan</span>
                   <i class="bi bi-arrow-right-short fs-4"></i>
                 </a>
               </div>
