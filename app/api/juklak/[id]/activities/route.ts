@@ -20,7 +20,7 @@ export async function GET(req: Request, { params }: Props) {
     const activities = await sql`
       SELECT * FROM juklak_activities 
       WHERE event_id = ${eventId} 
-      ORDER BY waktu_kegiatan ASC
+      ORDER BY position ASC, waktu_kegiatan ASC, id ASC
     `;
     return NextResponse.json(activities);
   } catch (error) {
@@ -40,15 +40,18 @@ export async function POST(req: Request, { params }: Props) {
   const eventId = parseInt(id);
 
   try {
-    const { waktu_kegiatan, waktu_selesai, nama_kegiatan, tempat, penanggung_jawab, perlengkapan, teknis } = await req.json();
+    const { waktu_kegiatan, waktu_selesai, nama_kegiatan, tempat, penanggung_jawab, perlengkapan, teknis, position } = await req.json();
 
     if (!waktu_kegiatan || !nama_kegiatan) {
       return NextResponse.json({ error: "Waktu dan nama kegiatan diperlukan" }, { status: 400 });
     }
 
+    const safeWaktuSelesai = waktu_selesai || null;
+    const safePosition = position !== undefined ? position : 0;
+
     const result = await sql`
-      INSERT INTO juklak_activities (event_id, waktu_kegiatan, waktu_selesai, nama_kegiatan, tempat, penanggung_jawab, perlengkapan, teknis)
-      VALUES (${eventId}, ${waktu_kegiatan}, ${waktu_selesai}, ${nama_kegiatan}, ${tempat}, ${penanggung_jawab}, ${perlengkapan}, ${teknis})
+      INSERT INTO juklak_activities (event_id, waktu_kegiatan, waktu_selesai, nama_kegiatan, tempat, penanggung_jawab, perlengkapan, teknis, position)
+      VALUES (${eventId}, ${waktu_kegiatan}, ${safeWaktuSelesai}, ${nama_kegiatan}, ${tempat}, ${penanggung_jawab}, ${perlengkapan}, ${teknis}, ${safePosition})
       RETURNING *
     `;
 
@@ -67,21 +70,24 @@ export async function PUT(req: Request, { params }: Props) {
   }
 
   try {
-    const { id: activityId, waktu_kegiatan, waktu_selesai, nama_kegiatan, tempat, penanggung_jawab, perlengkapan, teknis } = await req.json();
+    const { id: activityId, waktu_kegiatan, waktu_selesai, nama_kegiatan, tempat, penanggung_jawab, perlengkapan, teknis, position } = await req.json();
 
     if (!activityId) {
       return NextResponse.json({ error: "ID aktivitas diperlukan" }, { status: 400 });
     }
 
+    const safeWaktuSelesai = waktu_selesai || null;
+
     const result = await sql`
       UPDATE juklak_activities 
       SET waktu_kegiatan = ${waktu_kegiatan}, 
-          waktu_selesai = ${waktu_selesai},
+          waktu_selesai = ${safeWaktuSelesai},
           nama_kegiatan = ${nama_kegiatan}, 
           tempat = ${tempat},
           penanggung_jawab = ${penanggung_jawab}, 
           perlengkapan = ${perlengkapan}, 
-          teknis = ${teknis}
+          teknis = ${teknis},
+          position = ${position !== undefined ? position : 0}
       WHERE id = ${activityId}
       RETURNING *
     `;

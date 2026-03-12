@@ -3,7 +3,6 @@
 import { useState, useEffect, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 
 function LoginForm() {
@@ -51,14 +50,6 @@ function LoginForm() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 font-sans">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-sm border border-zinc-200">
         <div className="flex flex-col items-center">
-          <Image
-            className="mb-6"
-            src="/next.svg"
-            alt="Next.js logo"
-            width={100}
-            height={20}
-            priority
-          />
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
             Masuk ke Akun
           </h2>
@@ -99,12 +90,20 @@ function LoginForm() {
               />
             </div>
             <div>
-              <label 
-                htmlFor="password" 
-                className="block text-sm font-medium text-zinc-700 mb-1"
-              >
-                Kata Sandi
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label 
+                  htmlFor="password" 
+                  className="block text-sm font-medium text-zinc-700"
+                >
+                  Kata Sandi
+                </label>
+                <a 
+                  href="mailto:ignfranzx@gmail.com?subject=Lupa%20Akun%20Tukang%20Juklak&body=Halo%20Admin,%20saya%20lupa%20kata%20sandi%20akun%20Tukang%20Juklak%20saya.%20Mohon%20bantuannya."
+                  className="text-xs font-medium text-zinc-600 hover:text-black hover:underline transition-colors"
+                >
+                  Lupa kata sandi?
+                </a>
+              </div>
               <input
                 id="password"
                 name="password"

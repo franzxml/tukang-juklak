@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS juklak_events (
     tempat VARCHAR(255),
     waktu_mulai TIME,
     waktu_selesai TIME,
-    dresscode VARCHAR(255),
+    dresscode TEXT,
     owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { sql } from "@/db";
+import LogoutButton from "@/components/LogoutButton";
+import DeleteJuklakButton from "@/components/DeleteJuklakButton";
 
 export default async function DashboardPage() {
   const session = await getServerSession();
@@ -34,10 +36,11 @@ export default async function DashboardPage() {
           <h1 className="text-xl font-bold tracking-tight text-black">
             Tukang Juklak
           </h1>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <span className="text-sm text-zinc-600">
               Halo, <span className="font-semibold text-black">{user.nama}</span>
             </span>
+            <LogoutButton />
           </div>
         </div>
       </nav>
@@ -93,17 +96,24 @@ export default async function DashboardPage() {
                 href={`/juklak/${event.id}`}
                 className="group relative flex flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:border-black hover:shadow-md"
               >
-                <div className="mb-4 flex items-center justify-between">
+                <div className="mb-4 flex items-start justify-between">
                   <div className="rounded-lg bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-800">
                     Acara
                   </div>
-                  <span className="text-xs text-zinc-500">
-                    {new Date(event.tanggal_acara).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </span>
+                  <div className="flex items-center gap-2 -mr-2 -mt-2">
+                    <span className="text-xs text-zinc-500">
+                      {new Date(event.tanggal_acara).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </span>
+                    <DeleteJuklakButton 
+                      id={event.id} 
+                      title={event.judul_acara} 
+                      className="relative z-10 p-2 text-zinc-400 hover:text-red-600 rounded-full hover:bg-zinc-100 transition-colors"
+                    />
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold text-black group-hover:underline">
                   {event.judul_acara}

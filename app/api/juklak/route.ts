@@ -44,12 +44,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Judul dan tanggal diperlukan" }, { status: 400 });
     }
 
+    const safeWaktuMulai = waktu_mulai || null;
+    const safeWaktuSelesai = waktu_selesai || null;
+
     const userResult = await sql`SELECT id FROM users WHERE email = ${session.user.email} LIMIT 1`;
     const userId = userResult[0]?.id;
 
     const result = await sql`
       INSERT INTO juklak_events (judul_acara, tanggal_acara, tempat, waktu_mulai, waktu_selesai, dresscode, owner_id)
-      VALUES (${judul_acara}, ${tanggal_acara}, ${tempat}, ${waktu_mulai}, ${waktu_selesai}, ${dresscode}, ${userId})
+      VALUES (${judul_acara}, ${tanggal_acara}, ${tempat}, ${safeWaktuMulai}, ${safeWaktuSelesai}, ${dresscode}, ${userId})
       RETURNING *
     `;
 

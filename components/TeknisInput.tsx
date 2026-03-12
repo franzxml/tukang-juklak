@@ -21,7 +21,26 @@ export function TeknisInput({ value, onChange, pjValue, label = "Teknis Pelaksan
   const prevValueRef = useRef<string | undefined>(undefined);
 
   // Parse available PJs from pjValue
-  const availablePjs = useMemo(() => pjValue.split(", ").filter(p => !!p), [pjValue]);
+  const availablePjs = useMemo(() => {
+    if (!pjValue) return [];
+    if (pjValue.includes("\n")) {
+      return pjValue.split("\n").filter(p => !!p);
+    }
+    const parts = pjValue.split(", ").filter(p => !!p);
+    const pjs: string[] = [];
+    for (const part of parts) {
+      if (part.startsWith("(")) {
+        pjs.push(part);
+      } else {
+        if (pjs.length > 0) {
+          pjs[pjs.length - 1] += ", " + part;
+        } else {
+          pjs.push(part);
+        }
+      }
+    }
+    return pjs;
+  }, [pjValue]);
 
   // Parse initial value from parent
   useEffect(() => {
@@ -128,7 +147,7 @@ export function TeknisInput({ value, onChange, pjValue, label = "Teknis Pelaksan
                      onChange={(e) => handleStepChange(index, "pj", e.target.value)}
                      className="w-full appearance-none rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-black text-zinc-900 pr-8"
                    >
-                     <option value="">-- Pilih PJ --</option>
+                     <option value="">Pilih PJ</option>
                      {availablePjs.map((pj, i) => (
                        <option key={i} value={pj}>{pj}</option>
                      ))}
