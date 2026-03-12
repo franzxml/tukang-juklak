@@ -597,6 +597,7 @@ export function JuklakForm({
                                 <TeknisInput
                                   value={activity.teknis || ""}
                                   onChange={(val) => handleActivityChange(index, "teknis", val)}
+                                  pjValue={activity.penanggung_jawab || ""}
                                 />
                               </div>
                             </div>
