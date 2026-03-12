@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { sql } from "@/db";
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 
 // GET: Ambil semua aktivitas untuk satu event tertentu
 export async function GET(req: Request, { params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -31,7 +32,7 @@ export async function GET(req: Request, { params }: Props) {
 
 // POST: Tambah aktivitas baru ke dalam event
 export async function POST(req: Request, { params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -64,7 +65,7 @@ export async function POST(req: Request, { params }: Props) {
 
 // PUT: Update aktivitas yang sudah ada (menggunakan activity_id dari body)
 export async function PUT(req: Request, { params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -105,7 +106,7 @@ export async function PUT(req: Request, { params }: Props) {
 
 // DELETE: Hapus aktivitas (menggunakan activity_id dari URL query atau body)
 export async function DELETE(req: Request) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

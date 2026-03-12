@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { sql } from "@/db";
 
 export default async function AdminPage() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   // Validasi: Harus login dan memiliki role 'admin'
   if (!session || (session.user as any).role !== "admin") {

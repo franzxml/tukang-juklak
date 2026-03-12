@@ -1,6 +1,7 @@
 import { sql } from "@/db";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import RequestEditButton from "@/components/RequestEditButton";
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 };
 
 export default async function ShareJuklakPage({ params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const { id } = await params;
   const eventId = parseInt(id);
 

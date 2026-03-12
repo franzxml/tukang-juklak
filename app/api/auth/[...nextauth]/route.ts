@@ -1,9 +1,10 @@
 import NextAuth from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { sql } from "@/db";
 import bcrypt from "bcrypt";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -24,7 +25,6 @@ const handler = NextAuth({
         const user = result[0];
 
         // Verifikasi apakah user ada dan password (jika sudah ada kolom password) cocok
-        // Catatan: Pastikan kolom password sudah ditambahkan ke tabel users di database
         if (!user || !user.password) {
           throw new Error("User tidak ditemukan atau password belum diatur");
         }
@@ -42,7 +42,7 @@ const handler = NextAuth({
           id: user.id.toString(),
           email: user.email,
           name: user.nama,
-          role: user.role, // Tambahkan role
+          role: user.role,
         };
       }
     })
@@ -51,25 +51,27 @@ const handler = NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/login", // Mengarah ke halaman login custom
+    signIn: "/login",
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.role = (user as any).role; // Simpan role ke token
+        token.id = (user as any).id;
+        token.role = (user as any).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         (session.user as any).id = token.id;
-        (session.user as any).role = token.role; // Simpan role ke session
+        (session.user as any).role = token.role;
       }
       return session;
     }
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

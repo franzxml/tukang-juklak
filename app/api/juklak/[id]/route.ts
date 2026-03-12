@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { sql } from "@/db";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -8,7 +9,7 @@ type Props = {
 
 // GET: Ambil detail satu event
 export async function GET(req: Request, { params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
@@ -24,7 +25,7 @@ export async function GET(req: Request, { params }: Props) {
 
 // PATCH: Update Judul, Tanggal, Tempat, Waktu, & Dresscode Event
 export async function PATCH(req: Request, { params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session || !session.user?.email) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
@@ -64,7 +65,7 @@ export async function PATCH(req: Request, { params }: Props) {
 
 // DELETE: Hapus Event Beserta Semua Aktivitasnya
 export async function DELETE(req: Request, { params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session || !session.user?.email) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
